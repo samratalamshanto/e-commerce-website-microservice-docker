@@ -25,6 +25,7 @@ public class InventoryController {
 
     @GetMapping("/is-available")
     public boolean isProductAvailable(@RequestParam("productId") String productId, @RequestParam("quantity") int quantity) {
+        log.info("ProductId={}, Quantity={}", productId, quantity);
         return inventoryService.isProductAvailable(productId, quantity);
     }
 

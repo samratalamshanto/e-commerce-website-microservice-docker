@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "inventory", url = "http://localhost:9093")
+@FeignClient(value = "inventory-service")
 public interface InventoryClient {
     @RequestMapping(method = RequestMethod.GET, value = "/api/v1/inventory/is-available")
-    boolean  isAvailable(@RequestParam String productId, @RequestParam int quantity);
+    boolean isAvailable(@RequestParam String productId, @RequestParam int quantity);
 }
