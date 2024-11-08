@@ -9,6 +9,8 @@ import com.samratalam.orderservice.repository.OrderRepository;
 import com.samratalam.orderservice.utility.Utility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,9 @@ import java.util.Optional;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final InventoryClient inventoryClient;
+    private final KafkaTemplate<String, OrderResponse> kafkaTemplate;
+    @Value("${spring.kafka.template.default-topic}")
+    private String oderDefaultTopic;
 
     public CommonResponse addOrder(OrderRequest orderRequest) {
 
@@ -34,9 +39,13 @@ public class OrderService {
                     .orderDateTime(Utility.getCurDateTime())
                     .build();
             order = orderRepository.save(order);
+
             OrderResponse orderResponse = new OrderResponse(order.getId(), order.getTransactionNumber(), order.getStatus(),
                     order.getOrderCode(), order.getTotalPrice(), order.getQuantity(),
                     order.getOrderDateTime(), order.getRemarks());
+
+            kafkaTemplate.send(oderDefaultTopic, orderResponse);
+
             return new CommonResponse(200, true, "Successfully place the order.", orderResponse);
         } else {
             return new CommonResponse(200, true, "Out of stock.", null);
