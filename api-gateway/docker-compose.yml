@@ -83,3 +83,15 @@ services:
     volumes:
       - ./data_product:/data/db
 
+  mongodb-notification-service:
+    image: mongo
+    container_name: mongodb_notification_service
+    ports:
+      - "37017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: notification_service
+    volumes:
+      - ./data_notification:/data/db
+
