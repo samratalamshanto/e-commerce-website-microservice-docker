@@ -13,3 +13,7 @@
 10. Docker
 11. Kafka
 12. Micrometer Tracing, Zipkin for distributed tracing
+
+
+## Diagram:
+![Untitled Diagram drawio (1)](https://github.com/user-attachments/assets/bb87f9b9-7793-4d35-8f6f-07c7b813c45a)
