@@ -36,3 +36,4 @@ build/
 /postgres_inventory
 /postgres_order
 /data_product
+/data_notification
