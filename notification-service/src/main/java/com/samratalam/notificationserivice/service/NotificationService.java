@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificationService {
     private final NotificationRepository notificationRepository;
-    @Value("${spring.kafka.template.notification-topic}")
-    private String notificationTopic;
+//    @Value("${spring.kafka.template.notification-topic}")
+//    private String notificationTopic;
 
     @KafkaListener(topics = "notificationTopic", groupId = "orderGroup")
     public void listen(OrderResponse orderResponse) {
