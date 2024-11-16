@@ -3,12 +3,12 @@ package com.samratalam.notificationserivice.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.samratalam.notificationserivice.dto.OrderResponse;
+
 import com.samratalam.notificationserivice.entity.Notification;
 import com.samratalam.notificationserivice.repository.NotificationRepository;
+import com.samratalam.orderservice.dto.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

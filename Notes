@@ -1,0 +1,5 @@
+1. kafka-ui --> connect host as broker:29092
+2. when send msg to the kafka: in header of msg
+{
+   	"__TypeId__": "com.samratalam.orderservice.dto.OrderResponse"
+}

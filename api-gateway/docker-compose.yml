@@ -1,10 +1,10 @@
 services:
 
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: Zipkin
-    ports:
-      - "3333:9411"
+#  zipkin:
+#    image: openzipkin/zipkin:latest
+#    container_name: Zipkin
+#    ports:
+#      - "3333:9411"
 
   zookeeper:
     image: confluentinc/cp-zookeeper
@@ -20,16 +20,21 @@ services:
     image: confluentinc/cp-kafka
     container_name: broker
     ports:
-      - "9092:9092"
+      - "6000:9092"
       - "29092:29092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://broker:9092,INTERNAL://broker:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:6000,INTERNAL://broker:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
 
   schema-registry:
     image: confluentinc/cp-schema-registry
@@ -58,20 +63,20 @@ services:
       DYNAMIC_CONFIG_ENABLED: 'true'
 
 
-  postgresql-inventory-service:
-    image: "postgres"
-    container_name: postgresdb_inventory_service
-    ports:
-      - "5678:5432"
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=root
-      - POSTGRES_DB=inventory_db
-    volumes:
-      - ./postgres_inventory:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
-
+#  postgresql-inventory-service:
+#    image: "postgres"
+#    container_name: postgresdb_inventory_service
+#    ports:
+#      - "5678:5432"
+#    environment:
+#      - POSTGRES_PASSWORD=password
+#      - POSTGRES_USER=root
+#      - POSTGRES_DB=inventory_db
+#    volumes:
+#      - ./postgres_inventory:/var/lib/postgresql/data
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#
+#
   postgresql-order-service:
     image: "postgres"
     container_name: postgresdb_order_service
@@ -84,28 +89,28 @@ services:
     volumes:
       - ./postgres_order:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
-  mongodb-product-service:
-    image: mongo
-    container_name: mongodb_product_service
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: product_service
-    volumes:
-      - ./data_product:/data/db
-
-  mongodb-notification-service:
-    image: mongo
-    container_name: mongodb_notification_service
-    ports:
-      - "37017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: notification_service
-    volumes:
-      - ./data_notification:/data/db
+#
+#  mongodb-product-service:
+#    image: mongo
+#    container_name: mongodb_product_service
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: password
+#      MONGO_INITDB_DATABASE: product_service
+#    volumes:
+#      - ./data_product:/data/db
+#
+#  mongodb-notification-service:
+#    image: mongo
+#    container_name: mongodb_notification_service
+#    ports:
+#      - "37017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: password
+#      MONGO_INITDB_DATABASE: notification_service
+#    volumes:
+#      - ./data_notification:/data/db
 
