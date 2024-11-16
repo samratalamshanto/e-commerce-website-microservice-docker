@@ -31,8 +31,8 @@ public class OrderService {
 
     public CommonResponse addOrder(OrderRequest orderRequest) {
 
-        // boolean isAvailable = inventoryClient.isAvailable(orderRequest.productId(), orderRequest.quantity());
-        boolean isAvailable = true;
+         boolean isAvailable = inventoryClient.isAvailable(orderRequest.productId(), orderRequest.quantity());
+        //boolean isAvailable = true;
         if (isAvailable) {
             OrderEntity order = OrderEntity.builder()
                     .status("Completed")
